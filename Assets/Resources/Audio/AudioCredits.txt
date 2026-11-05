@@ -1,0 +1,11 @@
+Audio assets included in this game (all freely available):
+
+Background music: “Tower Defense Theme” by DST, obtained from OpenGameArt. License: CC0.
+Source: https://opengameart.org/content/tower-defense-theme
+
+Sound effects: selected clips from Kenney's Sci-fi Sounds, Impact Sounds, Interface Sounds, and Music Jingles packs. License: CC0 1.0. Credit is optional; source licenses are included beside the audio assets.
+Sources:
+https://kenney.nl/assets/sci-fi-sounds
+https://kenney.nl/assets/impact-sounds
+https://kenney.nl/assets/interface-sounds
+https://kenney.nl/assets/music-jingles

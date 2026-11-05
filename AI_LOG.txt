@@ -1,0 +1,25 @@
+# AI_LOG — Moss & Moon 2D Platformer
+
+AI assistance was used extensively during the development of this Unity project. Approximately **80% of the technical implementation was completed with AI assistance**, while the remaining **20% involved direct work by the project owner**.
+
+### Areas where AI assistance was used:
+- Creation and revision of gameplay scripts, including player movement, health, projectiles, coins, checkpoints, hazards, boss mechanics, and scene transitions.
+- Implementation of runtime level setup, mobile controls, HUD elements, menus, and settings.
+- Responsive Canvas configuration, touch-following joystick functionality, larger touch targets, and runtime Safe Area handling.
+- Player animation controllers, animation assets, and generated sprite frames.
+- Audio manager integration and sound/music configuration.
+- Assistance with debugging, troubleshooting, code improvements, and README documentation.
+
+### Project owner's contribution:
+- Unity project setup and overall project organization.
+- Integration of generated and revised scripts into the project.
+- Scene configuration and adjustment of GameObjects and components.
+- Inspector configuration, UI positioning, and visual adjustments.
+- Reviewing AI-generated code, making corrections, and connecting different gameplay systems.
+- Testing individual mechanics and adjusting the project during development.
+
+The 80/20 estimate represents the approximate division of development work, not a measured percentage of individual code lines.
+
+**Important:** The project owner is responsible for reviewing the final implementation and being able to explain the purpose of scripts, their important fields and methods, and how the gameplay systems interact.
+
+This log records the use of AI assistance and the project owner's contribution. It does not certify that the project has been fully play-tested, packaged, installed on a mobile device, or uploaded to Canvas.

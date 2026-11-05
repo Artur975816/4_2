@@ -12,6 +12,10 @@ public class UIManager : MonoBehaviour
     public GameObject gameOverPanel;
     public TMP_Text coinsText;
     public TMP_Text livesText;
+    public UnityEngine.UI.Text coinsLegacyText;
+    public UnityEngine.UI.Text livesLegacyText;
+    public UnityEngine.UI.Text messageText;
+    Coroutine messageRoutine;
 
     private void Awake()
     {
@@ -35,10 +39,28 @@ public class UIManager : MonoBehaviour
     public void RefreshHUD()
     {
         if (coinsText != null)
-            coinsText.text = "Монеты: " + (GameManager.Instance != null ? GameManager.Instance.Coins : 0)
-                + "  |  Всего: " + SaveSystem.TotalCoins;
+            coinsText.text = GameManager.Instance != null
+                ? "\u041C\u043E\u043D\u0435\u0442\u044B \u0443\u0440\u043E\u0432\u043D\u044F: " + GameManager.Instance.LevelCoinsCollected + "/" + GameManager.Instance.LevelCoinsRequired
+                : "\u041C\u043E\u043D\u0435\u0442\u044B \u0443\u0440\u043E\u0432\u043D\u044F: 0/0";
         if (livesText != null)
-            livesText.text = "Жизни: " + (GameManager.Instance != null ? GameManager.Instance.Lives : 3);
+            livesText.text = "\u0416\u0438\u0437\u043D\u0438: " + (GameManager.Instance != null ? GameManager.Instance.Lives : 3);
+        if (coinsLegacyText != null) coinsLegacyText.text = "\u041C\u043E\u043D\u0435\u0442\u044B \u0443\u0440\u043E\u0432\u043D\u044F: " + (GameManager.Instance != null ? GameManager.Instance.LevelCoinsCollected : 0) + "/" + (GameManager.Instance != null ? GameManager.Instance.LevelCoinsRequired : 0);
+        if (livesLegacyText != null) livesLegacyText.text = "\u0416\u0438\u0437\u043D\u0438: " + (GameManager.Instance != null ? GameManager.Instance.Lives : 3);
+    }
+
+    public void ShowMessage(string message)
+    {
+        if (messageText == null) return;
+        messageText.text = message;
+        messageText.gameObject.SetActive(true);
+        if (messageRoutine != null) StopCoroutine(messageRoutine);
+        messageRoutine = StartCoroutine(HideMessage());
+    }
+
+    System.Collections.IEnumerator HideMessage()
+    {
+        yield return new WaitForSecondsRealtime(2.2f);
+        if (messageText != null) messageText.gameObject.SetActive(false);
     }
 
     public void ShowPause(bool paused)
@@ -48,7 +70,15 @@ public class UIManager : MonoBehaviour
 
     public void ShowWin()
     {
-        if (winPanel != null) winPanel.SetActive(true);
+        if (winPanel == null) return;
+        winPanel.SetActive(true);
+        var texts = winPanel.GetComponentsInChildren<UnityEngine.UI.Text>(true);
+        if (texts.Length > 0) texts[0].text = "\u0422\u042B \u041F\u041E\u0411\u0415\u0414\u0418\u041B!";
+        if (texts.Length > 1) texts[1].text = "\u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u043C\u0441\u044F \u043A \u0432\u044B\u0431\u043E\u0440\u0443 \u0443\u0440\u043E\u0432\u043D\u044F...";
+        if (texts.Length > 2) texts[2].text = "\u0412\u042B\u0411\u0420\u0410\u0422\u042C \u0423\u0420\u041E\u0412\u0415\u041D\u042C";
+        var tmpTexts = winPanel.GetComponentsInChildren<TMP_Text>(true);
+        if (tmpTexts.Length > 0) tmpTexts[0].text = "\u0422\u042B \u041F\u041E\u0411\u0415\u0414\u0418\u041B!";
+        if (tmpTexts.Length > 1) tmpTexts[1].text = "\u0412\u043E\u0437\u0432\u0440\u0430\u0449\u0430\u0435\u043C\u0441\u044F \u043A \u0432\u044B\u0431\u043E\u0440\u0443 \u0443\u0440\u043E\u0432\u043D\u044F...";
     }
 
     public void ShowGameOver()
@@ -64,23 +94,29 @@ public class UIManager : MonoBehaviour
 
     public void RestartLevel()
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+        if (GameManager.Instance != null) GameManager.Instance.RestartCurrentLevel();
+        else { Time.timeScale = 1f; SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex); }
     }
 
     public void LoadScene(string sceneName)
     {
-        Time.timeScale = 1f;
-        SceneManager.LoadScene(sceneName);
+        if (GameManager.Instance != null) GameManager.Instance.LoadScene(sceneName);
+        else { Time.timeScale = 1f; SceneManager.LoadScene(sceneName); }
     }
 
     public void LoadNextLevel()
     {
-        Time.timeScale = 1f;
-        int next = SceneManager.GetActiveScene().buildIndex + 1;
-        if (next < SceneManager.sceneCountInBuildSettings) SceneManager.LoadScene(next);
-        else LoadScene("MainMenu");
+        if (GameManager.Instance != null) GameManager.Instance.LoadNextLevel();
+        else
+        {
+            Time.timeScale = 1f;
+            string current = SceneManager.GetActiveScene().name;
+            string next = current == "Level1" ? "Level2" : current == "Level2" ? "Level3" : "MainMenu";
+            SceneManager.LoadScene(next);
+        }
     }
+
+    public void LoadLevelSelect() => LoadScene("LevelSelect");
 
     public void QuitGame() => Application.Quit();
 }

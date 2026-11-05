@@ -22,6 +22,7 @@ public class Coin : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (!other.CompareTag("Player")) return;
+        Assignment6.A6Audio.PlayPickup();
         if (GameManager.Instance != null) GameManager.Instance.AddCoin(value);
         SaveSystem.AddTotalCoins(value);
         if (UIManager.Instance != null) UIManager.Instance.RefreshHUD();

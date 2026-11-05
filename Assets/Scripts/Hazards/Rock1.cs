@@ -1,0 +1,1 @@
+namespace Assignment6 { public class Rock:Hazard { } }
