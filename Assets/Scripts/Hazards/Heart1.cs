@@ -1,0 +1,1 @@
+namespace Assignment6 { public class Heart:Hazard { protected override void OnHitPlayer(Health h){h.Heal(1);} } }
